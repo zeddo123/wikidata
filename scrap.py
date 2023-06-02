@@ -24,7 +24,9 @@ class ScrapContributors:
 
 
     def get_authors(self) -> DefaultDict:
-        self.loaded_data = self.request_data()
+        if self.loaded_data is None:
+            self.loaded_data = self.request_data()
+
         soup = BeautifulSoup(self.loaded_data, 'html.parser')
 
         contrib_list = soup.find_all('a', 'mw-userlink')

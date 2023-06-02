@@ -1,17 +1,24 @@
 from scrap import ScrapContributors
+import plot
 
+import matplotlib.pyplot as plt
 
 page = ScrapContributors('Errico_Malatesta', 5000).get_wikipage()
 page2 = ScrapContributors('Mikhail_Bakunin', 5000).get_wikipage()
 
-print(page2.get_same_contributors_as(page))
+plt.style.use('ggplot')
 
-import matplotlib.pyplot as plt
-from matplotlib_venn import venn2
+plot.plot_contributions_by_type((2, 2, 3), page, page2)
+plt.tight_layout()
 
-set1 = set(page.contributors_list)
-set2 = set(page2.contributors_list)
+plot.plot_contributions_by_month((2, 2, 1), page)
+plt.tight_layout()
 
-venn2([set1, set2], (page.title, page2.title))
+plot.plot_contributions_by_month((2, 2, 2), page2)
+plt.tight_layout()
+
+
+plot.plot_venn((2, 2, 4), page, page2)
+plt.tight_layout()
 
 plt.show()

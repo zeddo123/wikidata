@@ -15,7 +15,7 @@ parser.add_argument('page2', type=str, help='Name of Wikipedia page')
 parser.add_argument('-c', '--contributions',
                     help='Number of contributions to retrieve',
                     type=int, default=5000)
-parser.add_argument('-o', '--ouput', type=str, default='ouput',
+parser.add_argument('-o', '--output', type=str, default='output',
                     help='Name of output file for the graphs')
 parser.add_argument('--graphical', default=True, action=argparse.BooleanOptionalAction,
                     help='Display data graphicly')
@@ -36,6 +36,7 @@ page = page.get_wikipage()
 page2 = page2.get_wikipage()
 
 plt.style.use('ggplot')
+fig = plt.figure()
 
 plot.plot_contributions_by_type((2, 2, 3), page, page2)
 plt.tight_layout()
@@ -50,5 +51,6 @@ plt.tight_layout()
 plot.plot_venn((2, 2, 4), page, page2)
 plt.tight_layout()
 
+fig.savefig(f'{arg.output}.png', bbox_inches='tight', dpi=150)
 if arg.graphical:
     plt.show()

@@ -4,6 +4,7 @@ from typing import DefaultDict
 import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
+from tqdm import tqdm
 
 from wikipage import WikiPage
 
@@ -16,6 +17,7 @@ class ScrapContributors:
         self.revisions = revisions
         self.url = f'https://en.wikipedia.org/w/index.php?title={self.title}&action=history&offset=&limit={self.revisions}'
         self.loaded_data = None
+        self.soup = None
 
 
     def request_data(self):
@@ -27,12 +29,13 @@ class ScrapContributors:
         if self.loaded_data is None:
             self.loaded_data = self.request_data()
 
-        soup = BeautifulSoup(self.loaded_data, 'html.parser')
+        if self.soup is None:
+            self.soup = BeautifulSoup(self.loaded_data, 'html.parser')
 
-        contrib_list = soup.find_all('a', 'mw-userlink')
+        contrib_list = self.soup.find_all('a', 'mw-userlink')
 
         dict_authors = defaultdict(int)
-        for contrib in contrib_list:
+        for contrib in tqdm(contrib_list):
             if not self.ANONUSER in contrib['class']:
                 dict_authors[contrib.bdi.text] += 1
             else:
@@ -45,11 +48,12 @@ class ScrapContributors:
         if self.loaded_data is None:
             self.loaded_data = self.request_data()
 
-        soup = BeautifulSoup(self.loaded_data, 'html.parser')
+        if self.soup is None:
+            self.soup = BeautifulSoup(self.loaded_data, 'html.parser')
 
-        dates_list = soup.find_all('a', 'mw-changeslist-date')
+        dates_list = self.soup.find_all('a', 'mw-changeslist-date')
         dict_dates = defaultdict(int)
-        for date in dates_list:
+        for date in tqdm(dates_list):
             dateobj = datetime.strptime(date.text, '%H:%M, %d %B %Y')
             dict_dates[dateobj.month] += 1
 

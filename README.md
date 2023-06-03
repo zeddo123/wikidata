@@ -33,3 +33,25 @@ options:
                         Compile contributors information per page in a
                         csv file (default: False)
 ```
+### Example
+The simplest way to run `wikidata` is to just pass it the title name of the two pages.
+```
+python wikidata.py Mikhail_Bakunin Errico_Malatesta
+```
+
+The command below would compare the wikipedia pages (Albert_Camus, and David_Graeber) for the last 
+100 revisions. No graphs will be shown (still going to be saved as png image), and csv
+data of contributions for each data will be generated.
+```sh 
+python wikidata.py Albert_Camus David_Graeber -c 100 --no-graphical --csv-data
+```
+
+## Installation
+To insall wikidata you only need to follow the instructions below.
+```sh
+// pull the git repository.
+git clone https://github.com/zeddo123/wikidata
+cd wikidata
+// install the requirements.
+poetry install // or pip install -r requirements.txt
+```

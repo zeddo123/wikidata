@@ -57,5 +57,10 @@ plot.plot_venn((2, 2, 4), page, page2)
 plt.tight_layout()
 
 fig.savefig(f'{arg.output}.png', bbox_inches='tight', dpi=150)
+
+print(arg)
+
 if arg.graphical:
     plt.show()
+
+

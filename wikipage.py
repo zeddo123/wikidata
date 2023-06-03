@@ -1,6 +1,8 @@
 from dataclasses import dataclass
 from typing import DefaultDict
 
+from tqdm import tqdm
+
 @dataclass
 class WikiPage:
     title: str
@@ -56,5 +58,9 @@ class WikiPage:
             contribs.append(self.months[i])
         return months, contribs
 
-
-
+    
+    def contributions_to_csv(self):
+        with open(f'{self.title}_contributions.csv', 'w') as fs:
+            fs.write('contributor,contributions\n')
+            for key, value in tqdm(self.authors.items()):
+                fs.write(f'{key},{value}\n')

@@ -1,5 +1,6 @@
 import argparse
 import asyncio
+from exceptions import PageNotFoundException
 
 from scrap import ScrapContributors
 import plot
@@ -27,10 +28,14 @@ arg = parser.parse_args()
 page = ScrapContributors(arg.page1, arg.contributions)
 page2 = ScrapContributors(arg.page2, arg.contributions)
 
-result = asyncio.run(async_requests.get([(page.title, page.url),
-                                (page2.title, page2.url)]))
-page.loaded_data = result[0]
-page2.loaded_data = result[1]
+try:
+    result = asyncio.run(async_requests.get([(page.title, page.url),
+                                    (page2.title, page2.url)]))
+    page.loaded_data = result[0]
+    page2.loaded_data = result[1]
+except PageNotFoundException as e:
+    print(f'{e}: Make sure that the Title for the page is correct.')
+    exit(1)
 
 page = page.get_wikipage()
 page2 = page2.get_wikipage()

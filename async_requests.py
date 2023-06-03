@@ -1,16 +1,20 @@
 import asyncio
 import aiohttp
+from exceptions import PageNotFoundException
 
 
-async def pull(title, url, session):
+async def pull(title, url, session: aiohttp.ClientSession):
     try:
         async with session.get(url=url) as resp:
+            if resp.status == 404:
+                raise Exception()
+
             result = await resp.text()
             
             print(f'Finished downloading {title}')
             return result
-    except:
-        print(f'Could not download {title}')
+    except Exception:
+        raise PageNotFoundException(f'Could not find page {title}')
 
 
 async def get(pages):

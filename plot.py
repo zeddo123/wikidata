@@ -2,7 +2,17 @@ import matplotlib.pyplot as plt
 from matplotlib_venn import venn2
 import numpy as np
 
-def plot_venn(axis, page1, page2):
+from wikipage import WikiPage
+
+def plot_venn(axis, page1: WikiPage, page2: WikiPage):
+    """
+    plots the venn diagram of page1, and page2.
+
+    Args:
+        axis: axis of the matplotlib figure.
+        page1: WikiPage
+        page2: WikiPage
+    """
     title = 'Intersection of contributors'
 
     set1 = set(page1.contributors_list)
@@ -13,7 +23,15 @@ def plot_venn(axis, page1, page2):
     venn2([set1, set2], (page1.title, page2.title))
 
 
-def plot_contributions_by_type(axis, page1, page2):
+def plot_contributions_by_type(axis, page1: WikiPage, page2: WikiPage):
+    """
+    plots Anonymous/non-anonymous contributions of page1 and page2.
+
+    Args:
+        axis: axis of the matplotlib figure.
+        page1: WikiPage
+        page2: WikiPage
+    """
     plt.subplot(*axis)
 
     groups = [page1.title, page2.title]
@@ -29,7 +47,14 @@ def plot_contributions_by_type(axis, page1, page2):
     plt.legend()
 
 
-def plot_contributions_by_month(axis, page):
+def plot_contributions_by_month(axis, page: WikiPage):
+    """
+    plots contributions of a WikiPage by months.
+
+    Args:
+        axis: axis of the matplotlib figure.
+        page: WikiPage
+    """
     plt.subplot(*axis)
     plt.title(f'{page.title}\n contributions by month')
     x, y = page.ordered_months()

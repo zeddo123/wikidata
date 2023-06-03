@@ -2,7 +2,7 @@ import argparse
 import asyncio
 from exceptions import PageNotFoundException
 
-from scrap import ScrapContributors
+from scrap import ScrapWiki
 import plot
 import async_requests
 
@@ -25,20 +25,20 @@ parser.add_argument('--csv-data', default=False, action=argparse.BooleanOptional
 arg = parser.parse_args()
 
 
-page1 = ScrapContributors(arg.page1, arg.contributions)
-page2 = ScrapContributors(arg.page2, arg.contributions)
+url1 = ScrapWiki(arg.page1, arg.contributions)
+url2 = ScrapWiki(arg.page2, arg.contributions)
 
 try:
-    result = asyncio.run(async_requests.get([(page1.title, page1.url),
-                                    (page2.title, page2.url)]))
-    page1.loaded_data = result[0]
-    page2.loaded_data = result[1]
+    result = asyncio.run(async_requests.get([(url1.title, url1.url),
+                                    (url2.title, url2.url)]))
+    url1.loaded_data = result[0]
+    url2.loaded_data = result[1]
 except PageNotFoundException as e:
     print(f'{e}: Make sure that the Title for the page is correct.')
     exit(1)
 
-page1 = page1.get_wikipage()
-page2 = page2.get_wikipage()
+page1 = url1.get_wikipage()
+page2 = url2.get_wikipage()
 
 plt.style.use('ggplot')
 fig = plt.figure()

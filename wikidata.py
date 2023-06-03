@@ -25,40 +25,42 @@ parser.add_argument('--csv-data', default=False, action=argparse.BooleanOptional
 arg = parser.parse_args()
 
 
-page = ScrapContributors(arg.page1, arg.contributions)
+page1 = ScrapContributors(arg.page1, arg.contributions)
 page2 = ScrapContributors(arg.page2, arg.contributions)
 
 try:
-    result = asyncio.run(async_requests.get([(page.title, page.url),
+    result = asyncio.run(async_requests.get([(page1.title, page1.url),
                                     (page2.title, page2.url)]))
-    page.loaded_data = result[0]
+    page1.loaded_data = result[0]
     page2.loaded_data = result[1]
 except PageNotFoundException as e:
     print(f'{e}: Make sure that the Title for the page is correct.')
     exit(1)
 
-page = page.get_wikipage()
+page1 = page1.get_wikipage()
 page2 = page2.get_wikipage()
 
 plt.style.use('ggplot')
 fig = plt.figure()
 
-plot.plot_contributions_by_type((2, 2, 3), page, page2)
+plot.plot_contributions_by_type((2, 2, 3), page1, page2)
 plt.tight_layout()
 
-plot.plot_contributions_by_month((2, 2, 1), page)
+plot.plot_contributions_by_month((2, 2, 1), page1)
 plt.tight_layout()
 
 plot.plot_contributions_by_month((2, 2, 2), page2)
 plt.tight_layout()
 
 
-plot.plot_venn((2, 2, 4), page, page2)
+plot.plot_venn((2, 2, 4), page1, page2)
 plt.tight_layout()
 
 fig.savefig(f'{arg.output}.png', bbox_inches='tight', dpi=150)
 
-print(arg)
+if arg.csv_data:
+    page1.contributions_to_csv()
+    page2.contributions_to_csv()
 
 if arg.graphical:
     plt.show()

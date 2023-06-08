@@ -110,9 +110,13 @@ class WikiPage:
         return months, contribs
 
     
-    def contributions_to_csv(self):
-        """Compiles the contributions data to a csv file."""
-        with open(f'{self.title}_contributions.csv', 'w') as fs:
-            fs.write('contributor,contributions\n')
-            for key, value in tqdm(self.authors.items()):
-                fs.write(f'{key},{value}\n')
+    def contributions(self):
+        """
+        Generator to iterate over authors.
+
+        Yields:
+            pair key value of author and contribs
+
+        """
+        for key, value in tqdm(self.authors.items()):
+            yield key, value

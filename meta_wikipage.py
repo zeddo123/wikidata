@@ -18,6 +18,7 @@ class MetaWikiPage:
         self.languages = languages
         self.revisions = revisions
         self.scraps = {}
+        self.pages = None
 
 
     def constructUrl(self, language: str):
@@ -47,4 +48,17 @@ class MetaWikiPage:
 
     
     def get_pages(self) -> list[WikiPage]:
-        return [value.get_wikipage() for value in self.scraps.values()]
+        self.pages = { key: value.get_wikipage() for key, value in self.scraps.items()}
+        return list(self.pages.values())
+
+
+    def contributions_to_csv(self):
+        with open(f'{self.title}_contribs.csv', 'w') as fs:
+            fs.write('contributor,contributions,language\n')
+            for language, page in self.pages.items():
+                for author, contribs in page.contributions():
+                    fs.write(f'{author},{contribs},{language}\n')
+            
+
+
+

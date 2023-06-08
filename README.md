@@ -70,3 +70,11 @@ cd wikidata
 // install the requirements.
 poetry install // or pip install -r requirements.txt
 ```
+
+### Dependencies
+* beautifulsoup4: for web scrapping the wikipedia pages.
+* matplotlib: for generating the plots from the data.
+* matplotlib-venn: helper library used to generate the venn diagrams.
+* aiohttp: async library used to speed up the pulling of the wikipedia pages.
+* tqdm: used for progess bars.
+* dateparser: used to parse the dates from any date format. Crucial to get the date objects from different languages.

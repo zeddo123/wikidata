@@ -13,15 +13,18 @@ def plot_plots(page1: WikiPage, page2: WikiPage):
         page1: WikiPage
         page2: WikiPage
     """
+
+    # Users/Anonymous contributions plot
     plot_contributions_by_type((2, 2, 3), page1, page2)
     plt.tight_layout()
 
+    # Contributions per month for page 1
     plot_contributions_by_month((2, 2, 1), page1)
     plt.tight_layout()
 
+    # Contributions per month for page 2
     plot_contributions_by_month((2, 2, 2), page2)
     plt.tight_layout()
-
 
     plot_venn((2, 2, 4), page1, page2)
     plt.tight_layout()

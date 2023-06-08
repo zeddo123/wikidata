@@ -5,6 +5,7 @@ from tqdm import tqdm
 
 @dataclass
 class WikiPage:
+    pure_title: str
     title: str
     authors: DefaultDict
     months: DefaultDict

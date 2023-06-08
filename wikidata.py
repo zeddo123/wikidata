@@ -43,18 +43,7 @@ page2 = url2.get_wikipage()
 plt.style.use('ggplot')
 fig = plt.figure()
 
-plot.plot_contributions_by_type((2, 2, 3), page1, page2)
-plt.tight_layout()
-
-plot.plot_contributions_by_month((2, 2, 1), page1)
-plt.tight_layout()
-
-plot.plot_contributions_by_month((2, 2, 2), page2)
-plt.tight_layout()
-
-
-plot.plot_venn((2, 2, 4), page1, page2)
-plt.tight_layout()
+plot.plot_plots(page1, page2)
 
 fig.savefig(f'{arg.output}.png', bbox_inches='tight', dpi=150)
 

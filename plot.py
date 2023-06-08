@@ -4,6 +4,29 @@ import numpy as np
 
 from wikipage import WikiPage
 
+
+def plot_plots(page1: WikiPage, page2: WikiPage):
+    """
+    General function to plot all graphs of page1, and page2.
+
+    Args:
+        page1: WikiPage
+        page2: WikiPage
+    """
+    plot_contributions_by_type((2, 2, 3), page1, page2)
+    plt.tight_layout()
+
+    plot_contributions_by_month((2, 2, 1), page1)
+    plt.tight_layout()
+
+    plot_contributions_by_month((2, 2, 2), page2)
+    plt.tight_layout()
+
+
+    plot_venn((2, 2, 4), page1, page2)
+    plt.tight_layout()
+
+
 def plot_venn(axis, page1: WikiPage, page2: WikiPage):
     """
     plots the venn diagram of page1, and page2.

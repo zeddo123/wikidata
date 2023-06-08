@@ -60,6 +60,16 @@ The command below would compare the wikipedia pages (Albert_Camus, and David_Gra
 ```sh 
 python wikidata.py Albert_Camus David_Graeber -c 1000 -l en fr de
 ```
+#### Csv data structure
+The csv file generated for each (meta)page has this format:
+```csv
+contributor, contributions, language
+Fabienamnet,1,fr
+Le sourcier de la colline,1,fr
+Rita2008,27,de
+Tsor,2,de
+Invisigoth67,5,de
+```
 
 ## Installation
 To insall wikidata you only need to follow the instructions below.

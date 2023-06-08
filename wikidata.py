@@ -17,6 +17,9 @@ parser.add_argument('page2', type=str, help='Name of Wikipedia page')
 parser.add_argument('-c', '--contributions',
                     help='Number of contributions to retrieve',
                     type=int, default=5000)
+parser.add_argument('-l', '--language',
+                    help='Wikipedia language (en -- English, fr -- French, etc.)',
+                    type=str, default='en')
 parser.add_argument('-o', '--output', type=str, default='output',
                     help='Name of output file for the graphs')
 parser.add_argument('--graphical', default=True, action=argparse.BooleanOptionalAction,
@@ -28,8 +31,8 @@ arg = parser.parse_args()
 
 # Create objects that take care of scrapping 
 # the wikipages.
-url1 = ScrapWiki(arg.page1, arg.contributions)
-url2 = ScrapWiki(arg.page2, arg.contributions)
+url1 = ScrapWiki(arg.page1, arg.contributions, arg.language)
+url2 = ScrapWiki(arg.page2, arg.contributions, arg.language)
 
 try:
     # Perform pages request asynchronously

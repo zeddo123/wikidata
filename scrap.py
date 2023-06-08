@@ -5,6 +5,7 @@ import requests
 from collections import defaultdict
 from bs4 import BeautifulSoup
 from tqdm import tqdm
+import dateparser
 
 from wikipage import WikiPage
 
@@ -25,10 +26,11 @@ class ScrapWiki:
     """
     ANONUSER = 'mw-anonuserlink'
 
-    def __init__(self, title: str, revisions: int) -> None:
+    def __init__(self, title: str, revisions: int, language: str) -> None:
         self.title = title
         self.revisions = revisions
-        self.url = f'https://en.wikipedia.org/w/index.php?title={self.title}&action=history&offset=&limit={self.revisions}'
+        self.language = language
+        self.url = f'https://{self.language}.wikipedia.org/w/index.php?title={self.title}&action=history&offset=&limit={self.revisions}'
         self.loaded_data = None
         self.soup = None
 
@@ -81,8 +83,11 @@ class ScrapWiki:
         dates_list = self.soup.find_all('a', 'mw-changeslist-date')
         dict_dates = defaultdict(int)
         for date in tqdm(dates_list):
-            dateobj = datetime.strptime(date.text, '%H:%M, %d %B %Y')
-            dict_dates[dateobj.month] += 1
+            try:
+                dateobj = dateparser.parse(date.text, languages=[self.language])
+                dict_dates[dateobj.month] += 1
+            except:
+                print(f'Cannot parse date format {date.text} in wikipage')
 
         return dict_dates
 

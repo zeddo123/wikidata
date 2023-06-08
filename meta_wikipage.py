@@ -55,6 +55,9 @@ class MetaWikiPage:
     def contributions_to_csv(self):
         with open(f'{self.title}_contribs.csv', 'w') as fs:
             fs.write('contributor,contributions,language\n')
+            if self.pages is None:
+                self.get_pages()
+
             for language, page in self.pages.items():
                 for author, contribs in page.contributions():
                     fs.write(f'{author},{contribs},{language}\n')
